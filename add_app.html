@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Add App | AI Apps Directory</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <nav class="navbar container">
+        <a class="brand" href="home.html">AI Apps</a>
+        <ul class="nav">
+            <li><a href="home.html" class="active">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="apps.html">Apps</a></li>
+            <li><button id="themeToggle" class="button icon" title="Toggle theme" aria-label="Toggle theme">🌓</button></li>
+        </ul>
+    </nav>
+</header>
+
+  <main class="container py-6">
+    <section class="card">
+      <h1 class="section-title">Add a New App</h1>
+      <form id="addAppForm" novalidate>
+        <div class="grid cols-2 gap-3">
+          <div class="form-group">
+            <label for="appName">App Name (English letters only, no spaces)</label>
+            <input type="text" id="appName" name="appName" placeholder="MyGreatApp" required pattern="^[A-Za-z]+$" />
+            <small class="error" data-for="appName"></small>
+          </div>
+          <div class="form-group">
+            <label for="company">Company (English letters + digits, no spaces)</label>
+            <input type="text" id="company" name="company" placeholder="OpenAI2025" required pattern="^[A-Za-z0-9]+$" />
+            <small class="error" data-for="company"></small>
+          </div>
+          <div class="form-group">
+            <label for="website">Website (URL)</label>
+            <input type="url" id="website" name="website" placeholder="https://example.com" required />
+            <small class="error" data-for="website"></small>
+          </div>
+          <div class="form-group">
+            <label for="domain">Domain</label>
+            <select id="domain" name="domain" required>
+              <option value="" selected disabled>— Select a domain —</option>
+              <option value="Education">Education</option>
+              <option value="E-Commerce">E-Commerce</option>
+              <option value="Robotics">Robotics</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Finance">Finance</option>
+              <option value="Productivity">Productivity</option>
+            </select>
+            <small class="error" data-for="domain"></small>
+          </div>
+          <div class="form-group">
+            <label>Is it free?</label>
+            <div class="switcher">
+              <label><input type="radio" name="isFree" value="Free" required> Free</label>
+              <label><input type="radio" name="isFree" value="Paid"> Paid</label>
+            </div>
+            <small class="error" data-for="isFree"></small>
+          </div>
+          <div class="form-group">
+            <label for="summary">Short Summary</label>
+            <textarea id="summary" name="summary" rows="4" placeholder="Write a concise description…" required></textarea>
+            <small class="error" data-for="summary"></small>
+          </div>
+        </div>
+
+        <details class="mt-3">
+          <summary>Optional Media (logo/audio/video)</summary>
+          <div class="grid cols-3 gap-3 mt-2">
+            <div class="form-group">
+              <label for="logoUrl">Logo Image URL</label>
+              <input type="url" id="logoUrl" name="logoUrl" placeholder="https://.../logo.png" />
+            </div>
+            <div class="form-group">
+              <label for="audioUrl">Audio URL</label>
+              <input type="url" id="audioUrl" name="audioUrl" placeholder="https://.../intro.mp3" />
+            </div>
+            <div class="form-group">
+              <label for="videoUrl">Video URL</label>
+              <input type="url" id="videoUrl" name="videoUrl" placeholder="https://.../demo.mp4 or YouTube link" />
+            </div>
+          </div>
+        </details>
+
+        <div class="form-actions mt-4">
+          <button type="submit" class="button lg">Submit</button>
+          <button type="reset" class="button ghost lg">Reset</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+    <footer class="site-footer">
+    <div class="container">
+        <span>© 2025 AI Apps</span>
+       
+    </div>
+</footer>
+
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="myFunctions.js"></script>
+  <script>
+    IWB.initThemeToggle('#themeToggle');
+    IWB.initHeaderElevate('#siteHeader');
+    IWB.initAddForm('#addAppForm');
+  </script>
+</body>
+</html>

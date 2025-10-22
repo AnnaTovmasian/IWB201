@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home | AI Apps Directory</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <nav class="navbar container">
+        <a class="brand" href="home.html">AI Apps</a>
+        <ul class="nav">
+            <li><a href="home.html" id="homePage">Home</a></li>
+            <li><a href="aboutus.html" id="aboutPage">About</a></li>
+            <li><a href="apps.html" id="appsPage">Apps</a></li>
+            <li><button id="themeToggle" class="button icon" title="Toggle theme" aria-label="Toggle theme">🌓</button></li>
+        </ul>
+    </nav>
+  </header>
+
+  <main class="container py-6">
+    <section class="hero">
+      <h1>Discover AI Applications</h1>
+      <p class="muted">A minimal, modern, responsive directory for showcasing AI apps — built with HTML, CSS, and JavaScript (jQuery included).</p>
+    </section>
+
+    <section class="card mt-6">
+      <h2 class="section-title">Team Members</h2>
+      <div class="grid cols-2 gap-3">
+        <div>
+          <h3>English</h3>
+          <ul class="bullets">
+            <li>anna_maria_233524 — Anna Maria Tawit Tomas</li>
+            <li>ammar_216505 — Ammar Mohamed Fatta</li>
+            <li>ghena_253242 — Ghena Riyad Rayhan</li>
+            <li>Gamal_297038 — Gamal Nasser Zaarour</li>
+                        <li>mohamed_amro_250962 — Muhammad Amro Fawaz Natfeji</li>
+
+          </ul>
+        </div>
+        <div>
+          <h3>Arabic</h3>
+          <ul class="bullets">
+            <li>آنا ماريا طاويت توماس — anna_maria_233524</li>
+            <li>عمار محمد فته — ammar_216505</li>
+            <li>غنى رياض ريحان — ghena_253242</li>
+            <li>جمال ناصر زاعور — Gamal_297038</li>
+            <li>محمد عمرو فواز نطفجي — mohamed_amro_250962_c4</li>
+
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="card mt-4">
+      <h2 class="section-title">Published Link</h2>
+      <p>After deployment, place your public URL here:
+        <a class="link" href="#" id="publish-link" aria-label="Publish link">https://example.github.io/ai-apps/</a>
+      </p>
+    </section>
+
+    <section class="card mt-4">
+      <h2 class="section-title">Notes</h2>
+      <p>The design is fully responsive and consistent across all pages. Any app added from <strong>Add App</strong> will appear instantly in <strong>Apps</strong> using localStorage.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+        <span>© 2025 AI Apps</span>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="myFunctions.js"></script>
+  <script>
+    // Function to highlight the current page in the navbar
+    function highlightActivePage() {
+      const currentUrl = window.location.pathname;
+
+      // Remove 'active' class from all links first
+      document.querySelectorAll('.nav a').forEach(link => {
+        link.classList.remove('active');
+      });
+
+      // Add 'active' to the appropriate link based on the page URL
+      if (currentUrl.includes('home.html')) {
+        document.getElementById('homePage').classList.add('active');
+      } else if (currentUrl.includes('aboutus.html')) {
+        document.getElementById('aboutPage').classList.add('active');
+      } else if (currentUrl.includes('apps.html')) {
+        document.getElementById('appsPage').classList.add('active');
+      }
+    }
+
+    // Run the function when the page loads
+    window.addEventListener('load', highlightActivePage);
+  </script>
+</body>
+</html>

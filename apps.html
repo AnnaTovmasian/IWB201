@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apps | AI Apps Directory</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <nav class="navbar container">
+        <a class="brand" href="home.html">AI Apps</a>
+        <ul class="nav">
+            <li><a href="home.html" id="homePage">Home</a></li>
+            <li><a href="aboutus.html" id="aboutPage">About</a></li>
+            <li><a href="apps.html" id="appsPage">Apps</a></li>
+            <li><button id="themeToggle" class="button icon" title="Toggle theme" aria-label="Toggle theme">🌓</button></li>
+        </ul>
+    </nav>
+  </header>
+
+  <main class="container py-6">
+    <section class="card">
+      <div class="card-header with-actions">
+        <h1 class="section-title">Apps</h1>
+        <div class="actions">
+          <a class="button sm" href="add_app.html">+ Add App</a>
+          <button id="collapseAll" class="button ghost sm">Collapse All</button>
+          <span id="resultsInfo" class="badge" aria-live="polite">Results: 0</span>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div class="controls mt-3" role="region" aria-label="Search, filter and sort controls">
+        <div class="search-wrap">
+          <span class="search-icon" aria-hidden="true">🔎</span>
+          <input id="q" class="input search" type="search" placeholder="Search by name or company…" />
+        </div>
+        <select id="domainFilter" class="input" aria-label="Domain filter">
+          <option value="">All Domains</option>
+          <option>Education</option>
+          <option>E-Commerce</option>
+          <option>Robotics</option>
+          <option>Healthcare</option>
+          <option>Finance</option>
+          <option>Productivity</option>
+        </select>
+        <select id="freeFilter" class="input" aria-label="Free/Paid filter">
+          <option value="">All (Free/Paid)</option>
+          <option value="Free">Free only</option>
+          <option value="Paid">Paid only</option>
+        </select>
+        <select id="sortBy" class="input" aria-label="Sort by">
+          <option value="createdAt_desc">Newest first</option>
+          <option value="createdAt_asc">Oldest first</option>
+          <option value="name_asc">Name (A → Z)</option>
+          <option value="name_desc">Name (Z → A)</option>
+        </select>
+        <div class="flex items-center gap-2">
+          <button id="prevPage" class="button ghost sm" aria-label="Previous page">◀</button>
+          <button id="nextPage" class="button ghost sm" aria-label="Next page">▶</button>
+        </div>
+      </div>
+
+      <!-- Data Ops -->
+      <div class="data-ops mt-3" role="region" aria-label="Data operations">
+        <input id="importFile" type="file" accept="application/json" hidden>
+        <button id="importBtn" class="button ghost sm" title="Import JSON">Import JSON</button>
+        <button id="exportBtn" class="button ghost sm" title="Export CSV">Export CSV</button>
+        <button id="clearBtn" class="button danger sm" title="Clear all data">Clear All</button>
+      </div>
+
+      <div class="table-wrapper mt-3">
+        <table class="table" id="appsTable" aria-describedby="apps_desc">
+          <caption id="apps_desc" class="sr-only">Table of AI apps with per-row details</caption>
+          <thead>
+            <tr>
+              <th>App Name</th>
+              <th>Company</th>
+              <th>Domain</th>
+              <th>Free/Paid</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody id="appsBody"></tbody>
+        </table>
+      </div>
+
+      <div id="emptyState" class="empty-state" hidden>
+        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a1.png" alt="No data"/>
+        <h3>No apps yet</h3>
+        <p class="muted">Add your first app using the button above — or import a ready JSON file.</p>
+        
+      </div>
+    </section>
+  </main>
+
+   <footer class="site-footer">
+    <div class="container">
+        <span>© 2025 AI Apps</span>
+       
+    </div>
+</footer>
+
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="myFunctions.js"></script>
+  <script>
+    IWB.initThemeToggle('#themeToggle');
+    IWB.initHeaderElevate('#siteHeader');
+    IWB.initAppsPage({
+      tbodySel: '#appsBody',
+      infoSel: '#resultsInfo',
+      qSel: '#q',
+      domainSel: '#domainFilter',
+      freeSel: '#freeFilter',
+      sortSel: '#sortBy',
+      pagerPrevSel: '#prevPage',
+      pagerNextSel: '#nextPage',
+      emptySel: '#emptyState'
+    });
+    IWB.initDataOps({
+      importInput: '#importFile',
+      importBtn: '#importBtn',
+      exportBtn: '#exportBtn',
+      clearBtn: '#clearBtn',
+      emptyImportBtn: '#emptyImport'
+    });
+    $('#collapseAll').on('click', function () {
+      $('.app-details').slideUp(IWB.motionSpeed());
+      $('.toggle-details[aria-expanded="true"]').attr('aria-expanded','false').text('Show details');
+    });
+  </script>
+</body>
+</html>

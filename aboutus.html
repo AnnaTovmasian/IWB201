@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About | AI Apps Directory</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+ <header class="site-header" id="siteHeader">
+    <nav class="navbar container">
+        <a class="brand" href="home.html">AI Apps</a>
+        <ul class="nav">
+            <li><a href="home.html" id="homePage">Home</a></li>
+            <li><a href="aboutus.html" id="aboutPage">About</a></li>
+            <li><a href="apps.html" id="appsPage">Apps</a></li>
+            <li><button id="themeToggle" class="button icon" title="Toggle theme" aria-label="Toggle theme">🌓</button></li>
+        </ul>
+    </nav>
+  </header>
+  
+  <main class="container py-6">
+    <section class="card">
+      <h1 class="section-title">About</h1>
+      <p>
+        We’re a student team building a clean, accessible, modern site to showcase AI apps.
+        Our mission: inclusive, progressive design that works beautifully on every device.
+      </p>
+      <div class="grid cols-2 gap-3 mt-3">
+        <div>
+          <h3>About the Site</h3>
+          <ul class="bullets">
+            <li>Founded: 2025</li>
+            <li>Focus: Simplifying AI app discovery</li>
+            <li>Approach: Minimal, accessible, mobile-first</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Contact</h3>
+          <ul class="bullets">
+            <li>Email: info@example.com</li>
+            <li>Phone: +000 000 0000</li>
+            <li>Address: University — IT Department</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+        <span>© 2025 AI Apps</span>
+       
+    </div>
+</footer>
+
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="myFunctions.js"></script>
+  <script>
+    IWB.initThemeToggle('#themeToggle');
+    IWB.initHeaderElevate('#siteHeader');
+  </script>
+</body>
+</html>
