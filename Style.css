@@ -37,8 +37,14 @@
 
 * { box-sizing: border-box; }
 html { font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
-body { margin: 0; background: radial-gradient(1200px 600px at 80% -10%, #15213b 0%, var(--bg) 70%); color: var(--text);
-  min-height: 100vh; display: flex; flex-direction: column; }
+body {
+  margin: 0;
+  background: radial-gradient(1200px 600px at 80% -10%, #15213b 0%, var(--bg) 70%);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 .theme-light body { background: var(--bg); }
 
 /* Layout */
@@ -54,14 +60,24 @@ body { margin: 0; background: radial-gradient(1200px 600px at 80% -10%, #15213b 
 .navbar { display: flex; align-items: center; justify-content: space-between; padding: .8rem 0; }
 .brand { font-weight: 800; color: var(--text); text-decoration: none; letter-spacing: .5px; }
 .nav { display: flex; gap: .6rem; list-style: none; margin: 0; padding: 0; }
-.nav a { color: var(--text); text-decoration: none; padding: .5rem .9rem; border-radius: .75rem; transition: .2s; }
+
+/* Make room for an active-state border without layout jump */
+.nav a {
+  color: var(--text);
+  text-decoration: none;
+  padding: .5rem .9rem;
+  border-radius: .75rem;
+  transition: .2s;
+  border: 1.5px solid transparent;         /* NEW: reserve space */
+}
 .nav a:hover { background: color-mix(in oklab, var(--surface), #000 10%); }
 
-/* Highlight active link */
-.nav a.active { background: color-mix(in oklab, var(--surface), #000 15%); outline: 1px solid var(--ring); }
+/* Highlight active link – strong, visible border + subtle bg */
 .nav a.active {
-  font-weight: bold;
-  color: #38c3e3; /* Highlight color */
+  border-color: var(--ring);                /* NEW: visible border */
+  background: color-mix(in oklab, var(--surface), #000 15%);
+  font-weight: 700;
+  color: var(--primary);
 }
 
 /* Buttons */
@@ -77,38 +93,34 @@ body { margin: 0; background: radial-gradient(1200px 600px at 80% -10%, #15213b 
 
 /* Inputs */
 input, select, textarea {
-  width: 100%; 
-  background: var(--surface); 
-  color: var(--text); 
-  border: 1px solid var(--border); 
-  border-radius: .8rem; 
-  padding: .7rem .9rem; 
-  margin: 0.5rem 0; 
-  outline: none; 
-  transition: border-color .15s ease, box-shadow .15s ease; 
+  width: 100%;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: .8rem;
+  padding: .7rem .9rem;
+  margin: 0.5rem 0;
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
 }
-
-/* Focus styles for input, select, textarea */
-input:focus, select:focus, textarea:focus { 
-  border-color: var(--primary); 
+input:focus, select:focus, textarea:focus {
+  border-color: var(--primary);
   box-shadow: 0 0 0 3px color-mix(in oklab, var(--primary) 25%, transparent);
 }
 
 /* Ensuring consistency across all input types */
-.switcher label { 
-  display: inline-block; 
-  margin: 0.5rem 0; 
-  padding: 0.3rem 0.6rem; 
-  background: var(--surface); 
-  border-radius: .8rem; 
-  border: 1px solid var(--border); 
-  color: var(--text); 
-  cursor: pointer; 
-  font-size: 1rem; 
+.switcher label {
+  display: inline-block;
+  margin: 0.5rem 0;
+  padding: 0.3rem 0.6rem;
+  background: var(--surface);
+  border-radius: .8rem;
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 1rem;
 }
-.switcher input { 
-  margin-right: 10px; 
-}
+.switcher input { margin-right: 10px; }
 
 .small { font-size: .92rem; }
 .error { color: var(--danger); min-height: 1.2em; }

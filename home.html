@@ -12,13 +12,13 @@
 <body>
   <header class="site-header" id="siteHeader">
     <nav class="navbar container">
-        <a class="brand" href="home.html">AI Apps</a>
-        <ul class="nav">
-            <li><a href="home.html" id="homePage">Home</a></li>
-            <li><a href="aboutus.html" id="aboutPage">About</a></li>
-            <li><a href="apps.html" id="appsPage">Apps</a></li>
-            <li><button id="themeToggle" class="button icon" title="Toggle theme" aria-label="Toggle theme">🌓</button></li>
-        </ul>
+      <a class="brand" href="home.html">AI Apps</a>
+      <ul class="nav">
+        <li><a href="home.html" id="homePage">Home</a></li>
+        <li><a href="aboutus.html" id="aboutPage">About</a></li>
+        <li><a href="apps.html" id="appsPage">Apps</a></li>
+        <li><button id="themeToggle" class="button icon" title="Toggle theme" aria-label="Toggle theme">🌓</button></li>
+      </ul>
     </nav>
   </header>
 
@@ -38,8 +38,7 @@
             <li>ammar_216505 — Ammar Mohamed Fatta</li>
             <li>ghena_253242 — Ghena Riyad Rayhan</li>
             <li>Gamal_297038 — Gamal Nasser Zaarour</li>
-                        <li>mohamed_amro_250962 — Muhammad Amro Fawaz Natfeji</li>
-
+            <li>mohamed_amro_250962 — Muhammad Amro Fawaz Natfeji</li>
           </ul>
         </div>
         <div>
@@ -50,7 +49,6 @@
             <li>غنى رياض ريحان — ghena_253242</li>
             <li>جمال ناصر زاعور — Gamal_297038</li>
             <li>محمد عمرو فواز نطفجي — mohamed_amro_250962_c4</li>
-
           </ul>
         </div>
       </div>
@@ -71,34 +69,16 @@
 
   <footer class="site-footer">
     <div class="container">
-        <span>© 2025 AI Apps</span>
+      <span>© 2025 AI Apps</span>
     </div>
   </footer>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="myFunctions.js"></script>
   <script>
-    // Function to highlight the current page in the navbar
-    function highlightActivePage() {
-      const currentUrl = window.location.pathname;
-
-      // Remove 'active' class from all links first
-      document.querySelectorAll('.nav a').forEach(link => {
-        link.classList.remove('active');
-      });
-
-      // Add 'active' to the appropriate link based on the page URL
-      if (currentUrl.includes('home.html')) {
-        document.getElementById('homePage').classList.add('active');
-      } else if (currentUrl.includes('aboutus.html')) {
-        document.getElementById('aboutPage').classList.add('active');
-      } else if (currentUrl.includes('apps.html')) {
-        document.getElementById('appsPage').classList.add('active');
-      }
-    }
-
-    // Run the function when the page loads
-    window.addEventListener('load', highlightActivePage);
+    IWB.initThemeToggle('#themeToggle');
+    IWB.initHeaderElevate('#siteHeader');
+    IWB.initNavActive('.nav a[href]');
   </script>
 </body>
 </html>

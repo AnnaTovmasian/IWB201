@@ -12,13 +12,13 @@
 <body>
   <header class="site-header" id="siteHeader">
     <nav class="navbar container">
-        <a class="brand" href="home.html">AI Apps</a>
-        <ul class="nav">
-            <li><a href="home.html" id="homePage">Home</a></li>
-            <li><a href="aboutus.html" id="aboutPage">About</a></li>
-            <li><a href="apps.html" id="appsPage">Apps</a></li>
-            <li><button id="themeToggle" class="button icon" title="Toggle theme" aria-label="Toggle theme">🌓</button></li>
-        </ul>
+      <a class="brand" href="home.html">AI Apps</a>
+      <ul class="nav">
+        <li><a href="home.html" id="homePage">Home</a></li>
+        <li><a href="aboutus.html" id="aboutPage">About</a></li>
+        <li><a href="apps.html" id="appsPage">Apps</a></li>
+        <li><button id="themeToggle" class="button icon" title="Toggle theme" aria-label="Toggle theme">🌓</button></li>
+      </ul>
     </nav>
   </header>
 
@@ -90,27 +90,26 @@
       </div>
 
       <div id="emptyState" class="empty-state" hidden>
-        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a1.png" alt="No data"/>
+        <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f4a1.png" alt="No data" />
         <h3>No apps yet</h3>
         <p class="muted">Add your first app using the button above — or import a ready JSON file.</p>
-        
       </div>
     </section>
   </main>
 
-   <footer class="site-footer">
+  <footer class="site-footer">
     <div class="container">
-        <span>© 2025 AI Apps</span>
-       
+      <span>© 2025 AI Apps</span>
     </div>
-</footer>
-
+  </footer>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="myFunctions.js"></script>
   <script>
     IWB.initThemeToggle('#themeToggle');
     IWB.initHeaderElevate('#siteHeader');
+    IWB.initNavActive('.nav a[href]');
+
     IWB.initAppsPage({
       tbodySel: '#appsBody',
       infoSel: '#resultsInfo',
@@ -131,7 +130,7 @@
     });
     $('#collapseAll').on('click', function () {
       $('.app-details').slideUp(IWB.motionSpeed());
-      $('.toggle-details[aria-expanded="true"]').attr('aria-expanded','false').text('Show details');
+      $('.toggle-details[aria-expanded="true"]').attr('aria-expanded', 'false').text('Show details');
     });
   </script>
 </body>

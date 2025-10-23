@@ -3,6 +3,30 @@ const IWB = (function () {
   const STORAGE_KEY = 'AI_APPS_LIST_V3';
   const THEME_KEY = 'AI_APPS_THEME';
 
+  /* ================= Theme ================= */
+  function applyTheme(theme) {
+    const root = document.documentElement;
+    if (theme === 'light') root.classList.add('theme-light');
+    else root.classList.remove('theme-light');
+    localStorage.setItem(THEME_KEY, theme);
+  }
+  function applySavedThemeOnLoad() {
+    const saved =
+      localStorage.getItem(THEME_KEY) ||
+      (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    applyTheme(saved);
+  }
+  function initThemeToggle(buttonSelector) {
+    applySavedThemeOnLoad(); // ensure theme applied on first paint
+    const btn = document.querySelector(buttonSelector);
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const current = localStorage.getItem(THEME_KEY) || 'dark';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+      btn.blur();
+    });
+  }
+
   /* ================= Motion ================= */
   const prefersReduced =
     window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -11,31 +35,10 @@ const IWB = (function () {
 
   /* ================= Storage ================= */
   const storage = {
-    get() {
-      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
-      catch { return []; }
-    },
+    get() { try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { return []; } },
     set(list) { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); },
     clear() { localStorage.removeItem(STORAGE_KEY); },
   };
-
-  /* ================= Theme ================= */
-  function applyTheme(theme) {
-    const root = document.documentElement;
-    if (theme === 'light') root.classList.add('theme-light');
-    else root.classList.remove('theme-light');
-    localStorage.setItem(THEME_KEY, theme);
-  }
-  function toggleTheme() {
-    const current = localStorage.getItem(THEME_KEY) || 'dark';
-    applyTheme(current === 'dark' ? 'light' : 'dark');
-  }
-  function initThemeToggle(buttonSelector) {
-    const btn = document.querySelector(buttonSelector); if (!btn) return;
-    const saved = localStorage.getItem(THEME_KEY) || 'dark';
-    applyTheme(saved);
-    btn.addEventListener('click', () => { toggleTheme(); btn.blur(); });
-  }
 
   /* ================= Header elevation ================= */
   function initHeaderElevate(headerSel) {
@@ -48,70 +51,59 @@ const IWB = (function () {
     window.addEventListener('scroll', onScroll, { passive: true });
   }
 
+  /* ================= Navbar active ================= */
+  function normalizePath(p) {
+    let x = (p || '').replace(/\/+$/, '');
+    if (x === '' || x === '/') return '/home';
+    if (x === '/index.html' || x === '/home.html') return '/home';
+    if (x === '/about' || x === '/aboutus.html') return '/aboutus';
+    if (x === '/apps.html') return '/apps';
+    return x;
+  }
+  function initNavActive(selector) {
+    const current = normalizePath(location.pathname);
+    const links = document.querySelectorAll(selector);
+    links.forEach(a => { a.classList.remove('active'); a.removeAttribute('aria-current'); });
+
+    let marked = false;
+    links.forEach(a => {
+      try {
+        const url = new URL(a.getAttribute('href'), location.href);
+        const target = normalizePath(url.pathname);
+        const match =
+          current === target ||
+          (current.startsWith('/home') && target === '/home') ||
+          (current.startsWith('/aboutus') && target === '/aboutus') ||
+          (current.startsWith('/apps') && target === '/apps');
+
+        if (!marked && match) {
+          a.classList.add('active');
+          a.setAttribute('aria-current', 'page');
+          marked = true;
+        }
+      } catch {}
+    });
+
+    if (!marked && links.length) {
+      links[0].classList.add('active');
+      links[0].setAttribute('aria-current', 'page');
+    }
+  }
+
   /* ================= Validators ================= */
-  // Update the app name validation to prevent spaces and numbers
   const validators = {
-    appName: (v) => /^[A-Za-z]+$/.test(v),  // Only letters, no spaces or numbers
-    company: (v) => /^[A-Za-z0-9]+$/.test(v), // Letters + digits, no spaces
+    appName: (v) => /^[A-Za-z]+$/.test(v),
+    company: (v) => /^[A-Za-z0-9]+$/.test(v),
     url: (v) => { try { new URL(v); return true; } catch { return false; } },
     required: (v) => v != null && String(v).trim().length > 0,
   };
 
-  // Validate App Name in the form submission
-  function validateForm(form) {
-    let ok = true;
-    const appName = form.appName.value.trim();
-
-    // Validate app name to ensure it contains only letters (no spaces or numbers)
-    if (!validators.appName(appName)) {
-      setError(form, 'appName', 'The app name should contain letters only, without spaces or numbers.');
-      ok = false;
-    }
-
-    // Additional form validations...
-    return ok;
-  }
-
-  /* ================= Toasts ================= */
-  const toastAreaId = 'toast-area';
-  function ensureToastArea() {
-    if (!document.getElementById(toastAreaId)) {
-      const d = document.createElement('div');
-      d.id = toastAreaId; d.className = 'toast-area';
-      document.body.appendChild(d);
-    }
-  }
-  function showToast(msg, type = 'success') {
-    ensureToastArea();
-    const wrap = document.getElementById(toastAreaId);
-    const el = document.createElement('div');
-    el.className = `toast ${type}`; el.role = 'status'; el.ariaLive = 'polite';
-    el.innerHTML = `<span class="title">${type === 'success' ? 'Done' : type === 'error' ? 'Error' : 'Notice'}</span><span>${escapeHTML(msg)}</span>`;
-    wrap.appendChild(el);
-    setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(-6px)'; }, 3200);
-    setTimeout(() => { el.remove(); }, 3600);
-  }
-
-  /* ================= Helpers ================= */
+  /* ================= Add App Form ================= */
   function setError(form, name, message) {
     const err = form.querySelector(`[data-for="${name}"]`);
     if (err) err.textContent = message || '';
   }
-  function escapeHTML(s = '') {
-    return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  }
-  function toEmbed(url) {
-    try {
-      const u = new URL(url);
-      if (u.hostname.includes('youtu.be')) return `https://www.youtube.com/embed/${u.pathname.slice(1)}`;
-      if (u.hostname.includes('youtube.com')) {
-        const id = u.searchParams.get('v'); if (id) return `https://www.youtube.com/embed/${id}`;
-      }
-      return url;
-    } catch { return url; }
-  }
 
-  /* ================= Add App Form ================= */
   function validateForm(form) {
     let ok = true;
     const appName = form.appName.value.trim();
@@ -130,6 +122,7 @@ const IWB = (function () {
     if (!validators.required(summary)) { setError(form, 'summary', 'Please add a short summary.'); ok = false; }
     return ok;
   }
+
   function liveValidate(form) {
     form.appName.addEventListener('input', () =>
       setError(form, 'appName', validators.appName(form.appName.value.trim()) ? '' : 'Letters only')
@@ -144,6 +137,7 @@ const IWB = (function () {
       setError(form, 'summary', form.summary.value.trim() ? '' : 'Required')
     );
   }
+
   function formToApp(form) {
     return {
       id: crypto.randomUUID(),
@@ -159,6 +153,7 @@ const IWB = (function () {
       createdAt: new Date().toISOString(),
     };
   }
+
   function initAddForm(selector) {
     const form = document.querySelector(selector); if (!form) return;
     liveValidate(form);
@@ -210,6 +205,37 @@ const IWB = (function () {
     }
   }
 
+  function showToast(msg, type = 'success') {
+    ensureToastArea();
+    const wrap = document.getElementById('toast-area');
+    const el = document.createElement('div');
+    el.className = `toast ${type}`; el.role = 'status'; el.ariaLive = 'polite';
+    el.innerHTML = `<span class="title">${type === 'success' ? 'Done' : type === 'error' ? 'Error' : 'Notice'}</span><span>${escapeHTML(msg)}</span>`;
+    wrap.appendChild(el);
+    setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(-6px)'; }, 3200);
+    setTimeout(() => { el.remove(); }, 3600);
+  }
+  function ensureToastArea() {
+    if (!document.getElementById('toast-area')) {
+      const d = document.createElement('div');
+      d.id = 'toast-area'; d.className = 'toast-area';
+      document.body.appendChild(d);
+    }
+  }
+  function escapeHTML(s = '') {
+    return s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  }
+  function toEmbed(url) {
+    try {
+      const u = new URL(url);
+      if (u.hostname.includes('youtu.be')) return `https://www.youtube.com/embed/${u.pathname.slice(1)}`;
+      if (u.hostname.includes('youtube.com')) {
+        const id = u.searchParams.get('v'); if (id) return `https://www.youtube.com/embed/${id}`;
+      }
+      return url;
+    } catch { return url; }
+  }
+
   function renderApps(tbody, infoEl, emptyEl) {
     const all = storage.get();
     const filtered = applyFilters(all);
@@ -247,9 +273,8 @@ const IWB = (function () {
             ${app.logoUrl ? `<img src="${app.logoUrl}" alt="Logo ${escapeHTML(app.appName)}">` : ''}
             ${app.audioUrl ? `<audio class="audio" controls src="${app.audioUrl}"></audio>` : ''}
             ${app.videoUrl ? (app.videoUrl.includes('youtube.com') || app.videoUrl.includes('youtu.be')
-        ? `<iframe class="video" src="${toEmbed(app.videoUrl)}" title="Demo video" allowfullscreen></iframe>`
-        : `<video class="video" controls src="${app.videoUrl}"></video>`)
-        : ''}
+                ? `<iframe class="video" src="${toEmbed(app.videoUrl)}" title="Demo video" allowfullscreen></iframe>`
+                : `<video class="video" controls src="${app.videoUrl}"></video>`) : ''}
           </div>
         </div>
       </td>`;
@@ -273,10 +298,8 @@ const IWB = (function () {
 
     function refresh() { renderApps(tbody, infoEl, emptyEl); }
 
-    // initial skeleton then real render
     renderSkeleton(tbody); setTimeout(refresh, prefersReduced ? 0 : 200);
 
-    // Bind controls
     const q = document.querySelector(qSel);
     if (q) {
       const onQ = () => { state.q = q.value.trim(); state.page = 1; refresh(); };
@@ -295,7 +318,6 @@ const IWB = (function () {
     if (next) next.addEventListener('click', () => { state.page++; refresh(); });
   }
 
-  /* ================= Data Ops: import / export / clear ================= */
   function toCSV(list) {
     const headers = ['appName', 'company', 'website', 'domain', 'isFree', 'summary', 'logoUrl', 'audioUrl', 'videoUrl', 'createdAt'];
     const rows = [headers.join(',')];
@@ -374,6 +396,9 @@ const IWB = (function () {
     initHeaderElevate,
     initAddForm,
     initAppsPage,
-    initDataOps
+    initDataOps,
+    // NEW exports:
+    applySavedThemeOnLoad,
+    initNavActive
   };
 })();

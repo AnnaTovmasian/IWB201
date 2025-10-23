@@ -10,18 +10,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
- <header class="site-header" id="siteHeader">
+  <header class="site-header" id="siteHeader">
     <nav class="navbar container">
-        <a class="brand" href="home.html">AI Apps</a>
-        <ul class="nav">
-            <li><a href="home.html" id="homePage">Home</a></li>
-            <li><a href="aboutus.html" id="aboutPage">About</a></li>
-            <li><a href="apps.html" id="appsPage">Apps</a></li>
-            <li><button id="themeToggle" class="button icon" title="Toggle theme" aria-label="Toggle theme">🌓</button></li>
-        </ul>
+      <a class="brand" href="home.html">AI Apps</a>
+      <ul class="nav">
+        <li><a href="home.html" id="homePage">Home</a></li>
+        <li><a href="aboutus.html" id="aboutPage">About</a></li>
+        <li><a href="apps.html" id="appsPage">Apps</a></li>
+        <li><button id="themeToggle" class="button icon" title="Toggle theme" aria-label="Toggle theme">🌓</button></li>
+      </ul>
     </nav>
   </header>
-  
+
   <main class="container py-6">
     <section class="card">
       <h1 class="section-title">About</h1>
@@ -52,17 +52,16 @@
 
   <footer class="site-footer">
     <div class="container">
-        <span>© 2025 AI Apps</span>
-       
+      <span>© 2025 AI Apps</span>
     </div>
-</footer>
-
+  </footer>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="myFunctions.js"></script>
   <script>
     IWB.initThemeToggle('#themeToggle');
     IWB.initHeaderElevate('#siteHeader');
+    IWB.initNavActive('.nav a[href]');
   </script>
 </body>
 </html>
